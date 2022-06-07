@@ -1,0 +1,15 @@
+{
+    "name": "mission-control",
+    "version": "0.0.0",
+    "description": "Development utilities",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/istvan-xyz/mission-control.git"
+    },
+    "author": "István Antal",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/istvan-xyz/mission-control/issues"
+    },
+    "homepage": "https://github.com/istvan-xyz/mission-control#readme"
+}
