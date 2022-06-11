@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "command": "npm version major --no-git-tag-version && version=$(jq -r '.version' package.json) && git add package.json && git commit -m \"Release: $version\" && git tag -a \"$version\" -m \"Release: $version\" && git push --tags && git push",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "Release Major Version",
+            "detail": "Create a major release: x.0.0"
+        },
+        {
+            "type": "shell",
+            "command": "npm version minor --no-git-tag-version && version=$(jq -r '.version' package.json) && git add package.json && git commit -m \"Release: $version\" && git tag -a \"$version\" -m \"Release: $version\" && git push --tags && git push",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "Release Minor Version",
+            "detail": "Create a minor release: 1.x.0"
+        },
+        {
+            "type": "shell",
+            "command": "npm version patch --no-git-tag-version && version=$(jq -r '.version' package.json) && git add package.json && git commit -m \"Release: $version\" && git tag -a \"$version\" -m \"Release: $version\" && git push --tags && git push",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "Release Patch Version",
+            "detail": "Create a patch release: 1.0.x"
+        }
+    ]
+}
