@@ -7,7 +7,12 @@
  * brew install lucassabreu/tap/clockify-cli
  */
 import { DateTime } from 'https://raw.githubusercontent.com/ipmanlk/deno-luxon/master/mod.ts';
+import { parse } from 'https://deno.land/std@0.119.0/flags/mod.ts';
 import { Issue, JiraClient } from '../jira.ts';
+
+const flags = parse(Deno.args, {
+    string: ['offset'],
+});
 
 const jiraClient = new JiraClient(
     Deno.env.get('JIRA_BASE_URL') || '',
@@ -75,7 +80,7 @@ const weekendOffset = DateTime.local().weekday - 5;
 const offset = DateTime.local()
     .setZone('UTC')
     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-    .minus({ days: weekendOffset <= 0 ? 1 : weekendOffset });
+    .minus({ days: flags.offset ? +flags.offset : weekendOffset <= 0 ? 1 : weekendOffset });
 
 const issuesDone = response.issues.filter((issue) => {
     const resolutionTime = DateTime.fromISO(issue.fields.resolutiondate);
