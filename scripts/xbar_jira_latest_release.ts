@@ -35,7 +35,7 @@ const printIssueLine = (item: Issue) => {
         .replace('/watchers', '')
         .replace('/issue/', '/browse/');
     console.log(
-        `${item.fields.summary} ${item.key} ${item.fields.status.name} ${item.fields.assignee.displayName} | href=${url}`,
+        `${item.fields.summary} ${item.key} ${item.fields.status.name} ${item.fields.assignee?.displayName} | href=${url}`,
     );
 };
 

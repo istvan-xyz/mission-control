@@ -86,7 +86,6 @@ const issuesReviewResult = await jiraClient.searchIssues(
     'assignee in (currentUser()) AND issuetype != Epic AND status = Review ORDER BY created DESC',
 );
 
-// assignee in (currentUser()) AND status = "In Progress" AND "Flagged[Checkboxes]" IS NULL AND issuetype != Epic ORDER BY rank ASC
 const issuesDoingResult = await jiraClient.searchIssues(
     'assignee in (currentUser()) AND status = "In Progress" AND "Flagged[Checkboxes]" IS NULL AND issuetype != Epic ORDER BY rank ASC',
 );

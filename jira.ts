@@ -16,7 +16,7 @@ export interface Issue {
         status: {
             name: string;
         };
-        assignee: {
+        assignee?: {
             displayName: string;
         };
         watches: {
