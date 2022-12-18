@@ -46,62 +46,69 @@ const releases: {
 releases.sort((a, b) => versionCompare(a.name, b.name));
 
 const currentItem = releases[0];
-const itemsInRelease = await jiraClient.searchIssues(
-    `project = "${Deno.env.get('JIRA_BOARD_PROJECT_KEY')}" AND fixVersion = ${currentItem.id} ORDER BY created DESC`,
-);
-const toDoIssues = itemsInRelease.issues.filter((issue) => issue.fields.status.name === 'To Do');
-const inProgressIssues = itemsInRelease.issues.filter((issue) => issue.fields.status.name === 'In Progress');
-const inReviewIssues = itemsInRelease.issues.filter((issue) => issue.fields.status.name === 'Review');
-const issuesDone = itemsInRelease.issues.filter((issue: any) => issue.fields.status.name === 'Done');
 
-const countIndicators: string[] = [];
+if (currentItem) {
+    const itemsInRelease = await jiraClient.searchIssues(
+        `project = "${Deno.env.get('JIRA_BOARD_PROJECT_KEY')}" AND fixVersion = ${
+            currentItem.id
+        } ORDER BY created DESC`,
+    );
+    const toDoIssues = itemsInRelease.issues.filter((issue) => issue.fields.status.name === 'To Do');
+    const inProgressIssues = itemsInRelease.issues.filter((issue) => issue.fields.status.name === 'In Progress');
+    const inReviewIssues = itemsInRelease.issues.filter((issue) => issue.fields.status.name === 'Review');
+    const issuesDone = itemsInRelease.issues.filter((issue: any) => issue.fields.status.name === 'Done');
 
-if (toDoIssues.length) {
-    countIndicators.push(`🧾${toDoIssues.length}`);
-}
+    const countIndicators: string[] = [];
 
-if (inProgressIssues.length) {
-    countIndicators.push(`⏳${inProgressIssues.length}`);
-}
-
-if (inReviewIssues.length) {
-    countIndicators.push(`🔬${inReviewIssues.length}`);
-}
-
-console.log(`${currentItem.name} ${countIndicators.join(' ')} | dropdown=false`);
-console.log('---');
-
-if (toDoIssues.length) {
-    console.log('To Do 🧾');
-    console.log('---');
-    for (const item of toDoIssues) {
-        printIssueLine(item);
+    if (toDoIssues.length) {
+        countIndicators.push(`🧾${toDoIssues.length}`);
     }
-    console.log('---');
-}
 
-if (inProgressIssues.length) {
-    console.log('In Progress ⏳');
-    console.log('---');
-    for (const item of inProgressIssues) {
-        printIssueLine(item);
+    if (inProgressIssues.length) {
+        countIndicators.push(`⏳${inProgressIssues.length}`);
     }
-    console.log('---');
-}
 
-if (inReviewIssues.length) {
-    console.log('Review 🔬');
-    console.log('---');
-    for (const item of inReviewIssues) {
-        printIssueLine(item);
+    if (inReviewIssues.length) {
+        countIndicators.push(`🔬${inReviewIssues.length}`);
     }
-    console.log('---');
-}
 
-if (issuesDone.length) {
-    console.log('Done ✅ ');
+    console.log(`${currentItem.name} ${countIndicators.join(' ')} | dropdown=false`);
     console.log('---');
-    for (const item of issuesDone) {
-        printIssueLine(item);
+
+    if (toDoIssues.length) {
+        console.log('To Do 🧾');
+        console.log('---');
+        for (const item of toDoIssues) {
+            printIssueLine(item);
+        }
+        console.log('---');
     }
+
+    if (inProgressIssues.length) {
+        console.log('In Progress ⏳');
+        console.log('---');
+        for (const item of inProgressIssues) {
+            printIssueLine(item);
+        }
+        console.log('---');
+    }
+
+    if (inReviewIssues.length) {
+        console.log('Review 🔬');
+        console.log('---');
+        for (const item of inReviewIssues) {
+            printIssueLine(item);
+        }
+        console.log('---');
+    }
+
+    if (issuesDone.length) {
+        console.log('Done ✅ ');
+        console.log('---');
+        for (const item of issuesDone) {
+            printIssueLine(item);
+        }
+    }
+} else {
+    console.log('-');
 }
