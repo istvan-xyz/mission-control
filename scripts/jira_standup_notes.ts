@@ -100,10 +100,11 @@ const blockedIssues = await jiraClient.searchIssues(
 );
 
 const selectForDevelopmentIssues = await jiraClient.searchIssues(
-    'status = "Selected for Development" AND assignee = currentUser() AND "Flagged[Checkboxes]" = EMPTY ORDER BY priority DESC, Rank ASC',
+    'assignee in (currentUser()) AND status = "Selected for Development" AND "Flagged[Checkboxes]" IS NULL AND issuetype != Epic ORDER BY rank ASC',
 );
 
 const upNextIssues = issuesDoingResult.issues.filter((item) => !issuesWorkedOn.includes(item.key));
+
 const workedOnIssues = (issuesDoingResult.issues ?? []).filter((item) => issuesWorkedOn.includes(item.key));
 
 if (issuesDone.length) {
@@ -130,7 +131,7 @@ if (workedOnIssues.length) {
     }
 }
 
-if (upNextIssues.length) {
+if (upNextIssues.length || selectForDevelopmentIssues.issues.length) {
     writeLine('');
     writeLine('*Up next ⏩*');
     for (const issue of upNextIssues.concat(selectForDevelopmentIssues.issues.slice(0, 3))) {
